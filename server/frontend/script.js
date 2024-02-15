@@ -59,29 +59,52 @@ function showPatientFiles() {
         var dataDirectory = 'Backend/Data/';
         var patientDirectory = dataDirectory + patientId;
 
-        // Use a method to fetch the list of files in the directory
-        console.log(patientDirectory)
-        fetchPatientFiles(patientDirectory);
+        // Use a method to fetch the list of .txt files in the directory
+        fetchPatientTextFiles(patientDirectory);
     }
 }
 
-function fetchPatientFiles(patientDirectory) {
-    // Make a request to the server endpoint
-    fetch('/api/getPatientFiles?directory=' + encodeURIComponent(patientDirectory))
+function fetchPatientTextFiles(patientDirectory) {
+    // Make a request to the server endpoint to get only .txt files
+    fetch('/api/getPatientFiles?directory=' + encodeURIComponent(patientDirectory) + '&extension=txt')
         .then(response => response.json())
-        .then(files => displayPatientFiles(files))
-        .catch(error => console.error('Error fetching patient files:', error));
+        .then(files => displayTextFiles(patientDirectory, files))
+        .catch(error => console.error('Error fetching patient text files:', error));
 }
 
-function displayPatientFiles(files) {
-    // Display the list of files in the UI
-    var fileListElement = document.getElementById('patientFileList');
-    fileListElement.innerHTML = ''; // Clear previous content
+function displayTextFiles(patientDirectory, textFiles) {
+    // Display the list of text files in the UI
+    var textFilesListElement = document.getElementById('textFilesList');
+    textFilesListElement.innerHTML = ''; // Clear previous content
 
-    if (files.length > 0) {
-        var fileListItems = files.map(file => '<li>' + file + '</li>').join('');
-        fileListElement.innerHTML = '<ul>' + fileListItems + '</ul>';
+    if (textFiles.length > 0) {
+        // Create an unordered list to hold text file titles and contents
+        var fileListItems = textFiles.map(file => {
+            return `<li><strong>${file}</strong>: <span id="${file}Content"></span></li>`;
+        }).join('');
+
+        textFilesListElement.innerHTML = `<ul>${fileListItems}</ul>`;
+
+        // Fetch and display the content of each text file
+        textFiles.forEach(file => {
+            fetchTextFileContent(patientDirectory, file);
+        });
     } else {
-        fileListElement.innerHTML = '<p>No files found for the patient.</p>';
+        textFilesListElement.innerHTML = '<p>No text files found for the patient.</p>';
     }
+}
+
+function fetchTextFileContent(patientDirectory, fileName) {
+    // Make a request to the server endpoint to get the content of the text file
+    fetch(`/api/getTextFileContent?directory=${encodeURIComponent(patientDirectory)}&fileName=${encodeURIComponent(fileName)}`)
+        .then(response => response.text())
+        .then(content => {
+            // Replace newline characters with HTML line breaks
+            content = content.replace(/\n/g, '<br>');
+            
+            // Display the content of the text file
+            var contentElement = document.getElementById(`${fileName}Content`);
+            contentElement.innerHTML = content;
+        })
+        .catch(error => console.error(`Error fetching content for ${fileName}:`, error));
 }
