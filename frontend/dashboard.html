@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>NICU Dashboard</h1>
+    </header>
+    <main>
+        <aside>
+            <label for="patientIdInput">Patient ID:</label>
+            <input type="text" id="patientIdInput" placeholder="Enter Patient ID">
+
+            <ul id="recentPatientList"></ul>
+        </aside>
+        <content>
+            <h2>Patient</h2>
+            <table>
+                <tr>
+                    <td>Id</td>
+                </tr>
+                <tr>
+                    <td>First Name</td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                </tr>
+                <tr>
+                    <td>Date (and hour) of birth</td>
+                </tr>
+                <tr>
+                    <td>Age in days (and hours)</td>
+                </tr>
+            </table>
+
+            <h2>Oxygenation Data</h2>
+            <p>Graphic with diverse variable values accross the last day.</p>
+
+            <canvas id="myChart" width="600" height="100"></canvas>
+
+
+            <h2>Excerpts from EPR</h2>
+            <p>e.g. Referral from gynecologist</p>
+            <p>e.g. Doctor notes</p>
+
+            <h2>Imaging</h2>
+            <p>e.g. Latest CT scan/MRI scan/ Ultrasound/X-ray</p>
+        </content>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Basic Website. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

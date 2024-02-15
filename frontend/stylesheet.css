@@ -1,0 +1,61 @@
+body {
+    font-family: 'Times New Roman', Times, serif, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+main {
+    display: flex;
+    /* Use flex for main to handle aside and content */
+    flex: 1;
+}
+
+table,
+tr,
+td {
+    border: 1px solid;
+}
+
+content {
+    flex: 1;
+    padding: 20px;
+}
+
+footer {
+    background-color: #389;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+aside {
+    width: 200px;
+    padding: 20px;
+    background-color: #ddd;
+}
+
+#patientIdInput {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#recentPatientList {
+    list-style: none;
+    padding: 0;
+}
+
+#recentPatientList li {
+    cursor: pointer;
+    margin-bottom: 5px;
+}
