@@ -60,6 +60,7 @@ function showPatientFiles() {
         var patientDirectory = dataDirectory + patientId;
 
         // Use a method to fetch the list of files in the directory
+        console.log(patientDirectory)
         fetchPatientFiles(patientDirectory);
     }
 }

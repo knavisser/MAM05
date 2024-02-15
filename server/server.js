@@ -15,10 +15,7 @@ const backendPath = path.join(__dirname, 'Backend');
 
 // Create an endpoint to fetch patient files
 app.get('/api/getPatientFiles', (req, res) => {
-    const patientId = req.query.patientId;
-
-    // Construct the path to the patient's data directory
-    const patientDirectory = path.join(backendPath, 'Data', patientId);
+    const patientDirectory = '../' + req.query.directory;
 
     // Check if the directory exists
     if (fs.existsSync(patientDirectory)) {
