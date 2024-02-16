@@ -1,5 +1,5 @@
 // server.js
-
+const csv = require('csv-parser');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -47,6 +47,48 @@ app.get('/api/getTextFileContent', (req, res) => {
         }
     } else {
         res.status(404).send('Text file not found.');
+    }
+});
+
+app.get('/api/getPatientData', (req, res) => {
+    const patientDirectory = '../' + req.query.directory;
+    const csvFilePath = path.join(patientDirectory, '5_variables.csv');
+
+    // Check if the CSV file exists
+    if (fs.existsSync(csvFilePath) && csvFilePath.endsWith('.csv')) {
+        try {
+            const data = {}; // Object to store processed data
+
+            // Read the CSV file using csv-parser
+            fs.createReadStream(csvFilePath)
+                .pipe(csv())
+                .on('data', (row) => {
+                    // Process each row of the CSV data
+                    for (const key in row) {
+                        var variableName = ''
+                        if (key.includes('oxic')) {
+                            variableName = key.split('')[0] + key.split('_')[1] + key.split('_')[2]
+                        } else {
+                            variableName = key.split('_')[0] + key.split('_')[1]; // Extract variable name (e.g., FiO2, HF, SpO2)
+                        }
+
+                        if (!data[variableName]) {
+                            data[variableName] = []
+                        }
+
+                        data[variableName].push(parseFloat(row[key]));
+                    }
+                })
+                .on('end', () => {
+                    // Send the processed data as JSON
+                    res.json(data);
+                });
+        } catch (error) {
+            console.error('Error reading CSV file:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    } else {
+        res.status(404).json({ error: 'CSV file not found.' });
     }
 });
 
