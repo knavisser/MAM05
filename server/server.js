@@ -67,7 +67,11 @@ app.get('/api/getPatientData', (req, res) => {
                     for (const key in row) {
                         var variableName = ''
                         if (key.includes('oxic')) {
-                            variableName = key.split('')[0] + key.split('_')[1] + key.split('_')[2]
+                            if (key.includes('event')) {
+                                variableName = key.split('')[0] + key.split('_')[1] + key.split('_')[2] + key.split('_')[3]
+                            } else {
+                                variableName = key.split('')[0] + key.split('_')[1] + key.split('_')[2]
+                            }
                         } else {
                             variableName = key.split('_')[0] + key.split('_')[1]; // Extract variable name (e.g., FiO2, HF, SpO2)
                         }
