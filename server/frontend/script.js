@@ -3,15 +3,21 @@
 function showPatientFiles() {
     var inputElement = document.getElementById('patientIdInput');
     var patientId = inputElement.value.trim();
+    var warningMessageElement = document.getElementById('warningMessage');
 
     if (patientId !== '') {
         // Construct the path to the patient's data directory
         var dataDirectory = 'Backend/Data/';
         var patientDirectory = dataDirectory + patientId;
+        warningMessageElement.innerHTML = 'Showing data for patient nr: ' + patientId;
 
         // Use a method to fetch the list of .txt files in the directory
         fetchPatientTextFiles(patientDirectory);
         fetchPatientVariables(patientDirectory);
+        fetchPatientImages(patientDirectory);
+    }
+    else{
+        warningMessageElement.innerHTML = 'Please enter a patient ID!';
     }
 }
 
@@ -61,31 +67,8 @@ function fetchTextFileContent(patientDirectory, fileName) {
         .catch(error => console.error(`Error fetching content for ${fileName}:`, error));
 }
 
-// Sample data
-var data = {
-    labels: ["Time 1", "Time 2", "Time 3", "Time 4", "Time 5"],
-    datasets: [{
-        label: "FiO2",
-        data: [10, 20, 30, 40, 50], // Sample data for variable 1
-        borderColor: 'rgba(255, 99, 132, 1)', // Line color
-        borderWidth: 2, // Line width
-        fill: false // Don't fill area under the line
-    },
-    {
-        label: "PEEP",
-        data: [20, 30, 40, 50, 60], // Sample data for variable 2
-        borderColor: 'rgba(54, 162, 235, 1)', // Line color
-        borderWidth: 2, // Line width
-        fill: false // Don't fill area under the line
-    },
-    {
-        label: "Variable 3",
-        data: [30, 40, 50, 60, 70], // Sample data for variable 3
-        borderColor: 'rgba(255, 206, 86, 1)', // Line color
-        borderWidth: 2, // Line width
-        fill: false // Don't fill area under the line
-    }]
-};
+// Empty data to show empty charts when starting up
+var data = {};
 
 // Configuration options
 var options = {
@@ -113,9 +96,17 @@ var myChart = new Chart(ctx, {
     options: options
 });
 
-function updateChart(newData) {
-    myChart.data = newData;
-    myChart.update();
+// Create the Hypoxic Burdenchart
+var ctx2 = document.getElementById('myHypoxicChart').getContext('2d');
+var myHypoxicChart = new Chart(ctx2, {
+    type: 'bar',
+    data: data,
+    options: options
+});
+
+function updateChart(c, newData) {
+    c.data = newData;
+    c.update();
 }
 
 function fetchPatientVariables(patientDirectory) {
@@ -142,8 +133,31 @@ function fetchPatientVariables(patientDirectory) {
                     borderWidth: 2, // Line width
                     fill: false // Don't fill area under the line
                 }]
-            }
-            updateChart(chartData)
+            };
+            updateChart(myChart, chartData);
+
+            var dropdown = document.getElementById('dropdown');
+            var selectedTreshold = dropdown.value; 
+            console.log(selectedTreshold)
+        
+            var chartHypoxicData = {
+                labels: data["days"],
+                datasets: [{
+                    label: "Total Hypoxic Burden Events",
+                    data: data[selectedTreshold], // Sample data for variable 1
+                    borderColor: 'rgba(255, 99, 132, 1)', // Line color
+                    borderWidth: 2, // Line width
+                    fill: false // Don't fill area under the line 
+                }]
+            };  
+            updateChart(myHypoxicChart, chartHypoxicData)
         })
+        .catch(error => console.error('Error fetching patient text files:', error));
+}
+
+function fetchPatientImages(patientDirectory){
+    // Make a request to the server endpoint to get only .txt files
+    fetch('/api/getPatientImages?directory=' + encodeURIComponent(patientDirectory) + '&extension=txt')
+        .then(response => response.json())
         .catch(error => console.error('Error fetching patient text files:', error));
 }

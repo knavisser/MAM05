@@ -19,6 +19,7 @@
             <label for="patientIdInput">Patient ID:</label>
             <input type="text" id="patientIdInput" placeholder="Enter Patient ID">
             <button onclick="showPatientFiles()">Show Files</button>
+            <p id="warningMessage"></p>
             <ul id="recentPatientList"></ul>
             <div id="patientFileList"></div>
         </aside>
@@ -47,6 +48,17 @@
 
             <canvas id="myChart" width="600" height="100"></canvas>
 
+            <h2>Hypoxic Burden data</h2>
+            <p>How many times a day did the Oxygen level get below the selected Treshold</p>
+
+            <label for="dropdown">Select a Treshold:</label>
+            <select id="dropdown" onchange="showPatientFiles()">
+                <option value="hburden80eventstotal">80</option>
+                <option value="hburden85eventstotal">85</option>
+                <option value="hburden90eventstotal">90</option>
+            </select>
+
+            <canvas id="myHypoxicChart" width="600" height="100"></canvas>
 
             <h2>Excerpts from EPR</h2>
             <div id="textFilesList"></div>

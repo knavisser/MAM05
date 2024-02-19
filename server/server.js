@@ -50,6 +50,26 @@ app.get('/api/getTextFileContent', (req, res) => {
     }
 });
 
+app.get('/api/getPatientImages', (req, res) => {
+    const patientDirectory = path.join('../', req.query.directory)
+    console.log(patientDirectory)
+    // Check if the directory exists
+    if (fs.existsSync(patientDirectory)) {
+        try {
+            const files = fs.readdirSync(patientDirectory)
+                .filter(file => file.endsWith('.png')); // Filter for .png files
+            res.json(files);
+            console.log(files);
+        } catch (error) {
+            console.error('Error reading patient Images:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    } else {
+        res.status(404).json({ error: 'Patient Images not found.' });
+    }
+    
+});
+
 app.get('/api/getPatientData', (req, res) => {
     const patientDirectory = '../' + req.query.directory;
     const csvFilePath = path.join(patientDirectory, '5_variables.csv');
