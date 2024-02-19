@@ -8,6 +8,11 @@ body {
     height: 100vh;
 }
 
+h2 {
+    color: #0077cc;
+    font-weight: bolder;
+}
+
 header {
     background-color: #0077cc;
     color: #fff;
@@ -56,7 +61,7 @@ footer {
 aside {
     width: 250px;
     padding: 20px;
-    background-color: #e0e0e0;
+    background-color: #b7dbf4;
 }
 
 #patientIdInput {
@@ -149,4 +154,10 @@ select {
 #showFilesButton {
     background-color: #4CAF50;
     color: #fff;
+}
+
+.divider {
+    border: 2px solid #b7dbf4;
+    margin-top: 15px;
+    margin-bottom: 40px;
 }
