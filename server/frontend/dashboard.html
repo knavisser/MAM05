@@ -22,6 +22,12 @@
             <p id="warningMessage"></p>
             <ul id="recentPatientList"></ul>
             <div id="patientFileList"></div>
+            <label for="dropdown">Select an oxygen saturation treshold:</label>
+            <select id="dropdown" onchange="showPatientFiles()">
+                <option value="hburden80eventstotal">80</option>
+                <option value="hburden85eventstotal">85</option>
+                <option value="hburden90eventstotal">90</option>
+            </select>
         </aside>
         <content>
             <h2>Patient</h2>
@@ -51,12 +57,8 @@
             <h2>Hypoxic Burden data</h2>
             <p>How many times a day did the Oxygen level get below the selected Treshold</p>
 
-            <label for="dropdown">Select a Treshold:</label>
-            <select id="dropdown" onchange="showPatientFiles()">
-                <option value="hburden80eventstotal">80</option>
-                <option value="hburden85eventstotal">85</option>
-                <option value="hburden90eventstotal">90</option>
-            </select>
+
+
 
             <canvas id="myHypoxicChart" width="600" height="100"></canvas>
 
@@ -67,7 +69,8 @@
             <p>e.g. Doctor notes</p>
 
             <h2>Imaging</h2>
-            <p>e.g. Latest CT scan/MRI scan/ Ultrasound/X-ray</p>
+            <p id="imageTitle"></p>
+            <img class="images" id="patientImage" alt="Patient Image">
         </content>
     </main>
     <footer>

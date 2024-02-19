@@ -1,15 +1,15 @@
 body {
-    font-family: 'Times New Roman', Times, serif, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
 
 header {
-    background-color: #333;
+    background-color: #0077cc;
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -17,14 +17,28 @@ header {
 
 main {
     display: flex;
-    /* Use flex for main to handle aside and content */
-    flex: 1;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
 }
 
 table,
-tr,
+th,
 td {
-    border: 1px solid;
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #0077cc;
+    color: #fff;
 }
 
 content {
@@ -33,21 +47,23 @@ content {
 }
 
 footer {
-    background-color: #389;
+    background-color: #0077cc;
     color: #fff;
     padding: 10px;
     text-align: center;
 }
 
 aside {
-    width: 200px;
+    width: 250px;
     padding: 20px;
-    background-color: #ddd;
+    background-color: #e0e0e0;
 }
 
 #patientIdInput {
-    width: 100%;
+    width: calc(100% - 20px);
+    padding: 8px;
     margin-bottom: 10px;
+    box-sizing: border-box;
 }
 
 #recentPatientList {
@@ -58,4 +74,79 @@ aside {
 #recentPatientList li {
     cursor: pointer;
     margin-bottom: 5px;
+}
+
+.images {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+/* Additional Styling for Charts */
+canvas {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    aside {
+        width: 100%;
+    }
+
+    #patientIdInput {
+        width: 100%;
+    }
+}
+
+/* Button Styles */
+button {
+    background-color: #0077cc;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005a99;
+}
+
+/* Dropdown Styles */
+select {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Customize Dropdown Arrow */
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><polygon points="6 0 0 6 12 6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px top 50%;
+}
+
+/* Additional Button Styling for Consistency */
+#showFilesButton {
+    background-color: #4CAF50;
+    color: #fff;
 }

@@ -155,9 +155,24 @@ function fetchPatientVariables(patientDirectory) {
         .catch(error => console.error('Error fetching patient text files:', error));
 }
 
-function fetchPatientImages(patientDirectory){
-    // Make a request to the server endpoint to get only .txt files
-    fetch('/api/getPatientImages?directory=' + encodeURIComponent(patientDirectory) + '&extension=txt')
+function fetchPatientImages(patientDirectory) {
+    // Make a request to the server endpoint to get image data
+    fetch('/api/getPatientImages?directory=' + encodeURIComponent(patientDirectory))
         .then(response => response.json())
-        .catch(error => console.error('Error fetching patient text files:', error));
+        .then(images => {
+            console.log(images[0].name)
+            // Assuming the response contains an array of objects with 'name' and 'data' properties
+            if (images && images.length > 0) {
+                // Get the img element
+                const imgElement = document.getElementById('patientImage');
+                const imgTitleElement = document.getElementById('imageTitle');
+
+                // Set the src attribute with the first image data
+                imgElement.src = 'data:image/png;base64,' + images[0].data;
+                imgTitleElement.innerHTML = images[0].name + ':';
+            } else {
+                console.warn('No images found for the patient.');
+            }
+        })
+        .catch(error => console.error('Error fetching patient images:', error));
 }

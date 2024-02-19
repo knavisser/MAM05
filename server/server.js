@@ -51,14 +51,23 @@ app.get('/api/getTextFileContent', (req, res) => {
 });
 
 app.get('/api/getPatientImages', (req, res) => {
-    const patientDirectory = path.join('../', req.query.directory)
-    console.log(patientDirectory)
+    const patientDirectory = path.join('../', req.query.directory);
+    console.log(patientDirectory);
+
     // Check if the directory exists
     if (fs.existsSync(patientDirectory)) {
         try {
             const files = fs.readdirSync(patientDirectory)
                 .filter(file => file.endsWith('.png')); // Filter for .png files
-            res.json(files);
+
+            // Read the content of each image file and send it as a response
+            const imageData = files.map(file => {
+                const filePath = path.join(patientDirectory, file);
+                const data = fs.readFileSync(filePath, 'base64');
+                return { name: file, data: data };
+            });
+
+            res.json(imageData);
             console.log(files);
         } catch (error) {
             console.error('Error reading patient Images:', error);
@@ -67,7 +76,6 @@ app.get('/api/getPatientImages', (req, res) => {
     } else {
         res.status(404).json({ error: 'Patient Images not found.' });
     }
-    
 });
 
 app.get('/api/getPatientData', (req, res) => {
