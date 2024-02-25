@@ -13,6 +13,11 @@ h2 {
     font-weight: bolder;
 }
 
+h3 {
+    color: #58ace9;
+    font-weight: bolder;
+}
+
 header {
     background-color: #0077cc;
     color: #fff;
@@ -39,6 +44,10 @@ th,
 td {
     padding: 12px;
     text-align: left;
+}
+
+td:first-child {
+    width: 25%;
 }
 
 th {
@@ -87,6 +96,27 @@ aside {
     display: block;
     margin: 10px 0;
 }
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
 
 /* Additional Styling for Charts */
 canvas {

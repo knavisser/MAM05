@@ -34,18 +34,31 @@
             <table>
                 <tr>
                     <td>Id</td>
+                    <td id="patientId"></td>
                 </tr>
                 <tr>
                     <td>First Name</td>
+                    <td id="firstname"></td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
+                    <td id="lastname"></td>
                 </tr>
                 <tr>
-                    <td>Date (and hour) of birth</td>
+                    <td>Gender</td>
+                    <td id="gender"></td>
                 </tr>
                 <tr>
-                    <td>Age in days (and hours)</td>
+                    <td>Date of birth</td>
+                    <td id="birthDate"></td>
+                </tr>
+                <tr>
+                    <td>Time of birth</td>
+                    <td id="timeOfBirth"></td>
+                </tr>
+                <tr>
+                    <td>Additional notes</td>
+                    <td id="notes"></td>
                 </tr>
             </table>
 
@@ -56,29 +69,43 @@
             <canvas id="myChart" width="600" height="100"></canvas>
 
             <hr class="divider">
-            <h2>Hypoxic Burden data</h2>
-            <p>How many times a day did the Oxygen level get below the selected Treshold</p>
-
-
-
+            <h2>Hypoxic Burden Data</h2>
+            <p>Amount of times the Oxygen level got below the selected treshold</p>
 
             <canvas id="myHypoxicChart" width="600" height="100"></canvas>
 
             <hr class="divider">
-            <h2>Excerpts from EPR</h2>
+            <h2>Summary</h2>
+            <div id="dataSummary1">
+            
+            </div>
+            <div id="dataSummary2">
+            
+            </div>
+            <div id="dataSummary3">
+            
+            </div>
+
+            <div id="warningMessageSummary">
+
+            </div>
+
+            <hr class="divider">
+            <h2>Doctor Notes</h2>
             <div id="textFilesList"></div>
 
-            <p>e.g. Referral from gynecologist</p>
-            <p>e.g. Doctor notes</p>
+            <hr class="divider">
+            <h2>Referral Details</h2>
+            <div id="referralDetailsTable"></div>
 
             <hr class="divider">
             <h2>Imaging</h2>
-            <p id="imageTitle"></p>
+            <h3 id="imageTitle"></h3>
             <img class="images" id="patientImage" alt="Patient Image">
         </content>
     </main>
     <footer>
-        <p>&copy; 2024 My Basic Website. All rights reserved.</p>
+        <p>&copy; 2024 - MAM05, Group 6. All rights reserved.</p>
     </footer>
 </body>
 

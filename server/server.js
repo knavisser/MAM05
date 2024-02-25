@@ -3,6 +3,7 @@ const csv = require('csv-parser');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+var convert = require('xml-js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'Frontend')));
 
 // Define the path to the "Backend" directory
 const backendPath = path.join(__dirname, 'Backend');
+
 
 app.get('/api/getPatientFiles', (req, res) => {
     const patientDirectory = '../' + req.query.directory;
@@ -52,7 +54,6 @@ app.get('/api/getTextFileContent', (req, res) => {
 
 app.get('/api/getPatientImages', (req, res) => {
     const patientDirectory = path.join('../', req.query.directory);
-    console.log(patientDirectory);
 
     // Check if the directory exists
     if (fs.existsSync(patientDirectory)) {
@@ -77,6 +78,35 @@ app.get('/api/getPatientImages', (req, res) => {
         res.status(404).json({ error: 'Patient Images not found.' });
     }
 });
+
+app.get('/api/getPatientReferral', (req, res) => {
+    const patientDirectory = '../' + req.query.directory;
+    const csvFilePath = path.join(patientDirectory, 'part-r-00000.csv');
+
+        // Check if the CSV file exists
+        if (fs.existsSync(csvFilePath) && csvFilePath.endsWith('.csv')) {
+            try {
+                const record = []; // Object to store processed data
+    
+                // Read the CSV file using csv-parser
+                console.log(csvFilePath)
+                fs.createReadStream(csvFilePath)
+                    .pipe(csv(['Property', 'Value']))
+                    .on('data', (data) => { 
+                    record.push(data);
+            })
+                    .on('end', () => {
+                        // Send the processed data as JSON
+                        res.json(record);
+                    });
+            } catch (error) {
+                console.error('Error reading CSV file:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            }
+        } else {
+            res.status(404).json({ error: 'CSV file not found.' });
+        }
+})
 
 app.get('/api/getPatientData', (req, res) => {
     const patientDirectory = '../' + req.query.directory;
@@ -123,6 +153,25 @@ app.get('/api/getPatientData', (req, res) => {
         res.status(404).json({ error: 'CSV file not found.' });
     }
 });
+
+app.get('/api/getPatientRecords', (req, res) => {
+    const filePath = path.join('../Backend/Data/', 'patientRecordsFebruary.xml')
+        // Check if the CSV file exists
+        if (fs.existsSync(filePath) && filePath.endsWith('.xml')) {
+            try {
+                var xml = fs.readFileSync(filePath, 'utf8');
+                var result = convert.xml2json(xml, {compact: true, spaces: 4});
+                res.json(result);
+            } catch (error) {
+                console.error('Error reading XML file:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            }
+        } else {
+            res.status(404).json({ error: 'XML file not found.' });
+        }
+
+})
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
